@@ -39,16 +39,27 @@ class CounterApp extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       context.read<CountController>().increment();
-                      
                     },
-                    child: Text("+"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: CircleBorder(),
+                      minimumSize: Size(80, 80),
+                    ),
+                    child: Text("+", style: TextStyle(fontSize: 30)),
                   ),
                   SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
                       context.read<CountController>().decrement();
                     },
-                    child: Text("-"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      shape: CircleBorder(),
+                      minimumSize: Size(80, 80),
+                    ),
+                    child: Text("-", style: TextStyle(fontSize: 40)),
                   ),
                 ],
               ),
@@ -61,7 +72,7 @@ class CounterApp extends StatelessWidget {
                 height: 55,
                 child: ElevatedButton(
                   onPressed: () {
-                     context.read<CountController>().reset();
+                    context.read<CountController>().reset();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
