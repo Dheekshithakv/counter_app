@@ -1,53 +1,10 @@
+import 'package:counter_app/count_controller.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Counter extends StatefulWidget {
-  const Counter({super.key});
-
-  @override
-  State<Counter> createState() => _CounterState();
-}
-
-class _CounterState extends State<Counter> {
-  int counter = 0;
-
-  Widget button(String text) {
-    return SizedBox(
-      width: 75,
-      height: 75,
-      child: ElevatedButton(
-        onPressed: () {
-          buttonPressed(text);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: text == "+" ?Colors.green : text == "-"
-              ? Colors.red
-              : text == "Reset"
-              ? Colors.blueAccent
-              : Colors.white,
-          foregroundColor: text == "+" || text == "-" || text == "Reset"
-              ? Colors.white
-              : Colors.black,
-          textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          shape: CircleBorder(),
-           
-        padding: EdgeInsets.zero,
-        ),
-        child: Text(text),
-      ),
-    );
-  }
-
-  void buttonPressed(String value) {
-    setState(() {
-      if (value == "+") {
-        counter++;
-      } else if (value == "-") {
-        counter--;
-      } else if (value == "Reset") {
-        counter = 0;
-      }
-    });
-  }
+class CounterApp extends StatelessWidget {
+  const CounterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +26,7 @@ class _CounterState extends State<Counter> {
 
               // Counter display
               Text(
-                "$counter",
+                context.watch<CountController>().count.count.toString(),
                 style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
               ),
 
@@ -78,7 +35,22 @@ class _CounterState extends State<Counter> {
               // + and - buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [button("-"), SizedBox(width: 20), button("+")],
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<CountController>().increment();
+                      
+                    },
+                    child: Text("+"),
+                  ),
+                  SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<CountController>().decrement();
+                    },
+                    child: Text("-"),
+                  ),
+                ],
               ),
 
               SizedBox(height: 20),
@@ -88,7 +60,9 @@ class _CounterState extends State<Counter> {
                 width: 170,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () => buttonPressed("Reset"),
+                  onPressed: () {
+                     context.read<CountController>().reset();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     foregroundColor: Colors.white,
